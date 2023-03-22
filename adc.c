@@ -49,8 +49,8 @@ void main(void)
     //Select the internal oscillator 1 as the clock source
     CLK_setOscSrc(myClk, CLK_OscSrc_Internal);
 
-    // Setup the PLL for x10 /2 which will yield 50Mhz = 10Mhz * 10 / 2
-    PLL_setup(myPll, PLL_Multiplier_10, PLL_DivideSelect_ClkIn_by_2);
+    // Setup the PLL for x10 /2 which will yield 60Mhz = 10Mhz * 6 / 1
+    PLL_setup(myPll, PLL_Multiplier_6, PLL_DivideSelect_ClkIn_by_1);
 
     // Disable the PIE and all interrupts
     PIE_disable(myPie);
