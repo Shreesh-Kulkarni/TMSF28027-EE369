@@ -116,16 +116,16 @@ interrupt void adc_isr(void)
 {
 
     //discard ADCRESULT0 as part of the workaround to the 1st sample errata for rev0
-    for(int i=0;i<16;i++){
+    for(i=0;i<16;i++){
         adcresult[i]=ADC_readResult(myAdc,ADC_ResultNumber_0);
-        adcVoltage[i]]=VSF*adcresult[i];
+        adcVoltage[i]=VSF*adcresult[i];
     }
     float32 sum = 0;
-    for(uint16_t i=0; i<ADC_SOC_NUMBER; i++)
+    for(j=0; j<16; j++)
     {
-        sum += adcVoltage[i] * adcVoltage[i];
+        sum += adcVoltage[j] * adcVoltage[j];
     }
-    rmsValue = sqrt(sum/16);
+    rmsvalue = sqrt(sum/16);
     // Clear ADCINT1 flag reinitialize for next SOC
     ADC_clearIntFlag(myAdc, ADC_IntNumber_1);
     // Acknowledge interrupt to PIE
