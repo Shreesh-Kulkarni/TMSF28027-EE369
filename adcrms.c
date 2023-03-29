@@ -18,6 +18,8 @@ uint16_t LoopCount;
 float adc_in;
 uint16_t ConversionCount;
 uint16_t adcresult[16];
+uint16_t i;
+uint16_t j;
 float32 adcVoltage[16];
 float32 rmsvalue;
 
