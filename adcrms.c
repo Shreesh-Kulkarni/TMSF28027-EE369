@@ -7,6 +7,7 @@
 #include "f2802x_common/include/pie.h"
 #include "f2802x_common/include/pll.h"
 #include "f2802x_common/include/wdog.h"
+#include "math.h"
 #define VSF 3.3/4096
 
 // Prototype statements for functions found within this file.
@@ -18,10 +19,11 @@ uint16_t LoopCount;
 float adc_in;
 uint16_t ConversionCount;
 uint16_t adcresult[16];
+float adcVoltage[16];
+float rmsvalue;
 uint16_t i;
 uint16_t j;
-float32 adcVoltage[16];
-float32 rmsvalue;
+float sum;
 
 ADC_Handle myAdc;
 CLK_Handle myClk;
@@ -118,16 +120,18 @@ interrupt void adc_isr(void)
 {
 
     //discard ADCRESULT0 as part of the workaround to the 1st sample errata for rev0
+    sum=0.0;
+    rmsvalue=0.0;
     for(i=0;i<16;i++){
         adcresult[i]=ADC_readResult(myAdc,ADC_ResultNumber_0);
         adcVoltage[i]=VSF*adcresult[i];
     }
-    float32 sum = 0;
+
     for(j=0; j<16; j++)
     {
         sum += adcVoltage[j] * adcVoltage[j];
     }
-    rmsvalue = sqrt(sum/16);
+    rmsvalue = sqrtf(sum/16);
     // Clear ADCINT1 flag reinitialize for next SOC
     ADC_clearIntFlag(myAdc, ADC_IntNumber_1);
     // Acknowledge interrupt to PIE
