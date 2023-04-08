@@ -218,7 +218,7 @@ interrupt void ecap1_isr(void)
     countON1=prd2-prd1;
     countON2=prd4-prd3;
     countOFF=prd3-prd2;
-    f=(10000000/(((countON1+countON2)/2)+countOFF));
+    f=2*(10000000/(((countON1+countON2)/2)+countOFF));
 
     CAP_clearInt(myCap, CAP_Int_Type_CEVT4);
     CAP_clearInt(myCap, CAP_Int_Type_Global);
